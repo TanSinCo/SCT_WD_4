@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Navigation with Scroll Effects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transition: background 0.5s ease;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 36px;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 90%;
+            max-width: 800px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 20px;
+            z-index: 1000;
+        }
+
+        .navbar ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        .navbar li a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar li a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        h1, h2, p {
+            margin-bottom: 20px;
+        }
+
+        /* Scroll animation */
+        .hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#home" data-color="linear-gradient(135deg, #667eea, #764ba2)">Home</a></li>
+                <li><a href="#about" data-color="linear-gradient(135deg, #ff758c, #ff7eb3)">About</a></li>
+                <li><a href="#services" data-color="linear-gradient(135deg, #43e97b, #38f9d7)">Services</a></li>
+                <li><a href="#contact" data-color="linear-gradient(135deg, #fa709a, #fee140)">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="section">
+        <h1 class="hidden">Welcome to Our Landing Page</h1>
+        <p class="hidden">Scroll down to see the effects!</p>
+        <a href="#about" class="hidden" style="color: white; text-decoration: none; border: 2px solid white; padding: 10px 20px; border-radius: 30px;">Explore More</a>
+    </section>
+
+    <section id="about" class="section" style="background-color: rgba(255, 117, 140, 0.1);">
+        <h2 class="hidden">About Us</h2>
+    </section>
+
+    <section id="services" class="section" style="background-color: rgba(67, 233, 123, 0.1);">
+        <h2 class="hidden">Our Services</h2>
+    </section>
+
+    <section id="contact" class="section" style="background-color: rgba(250, 112, 154, 0.1);">
+        <h2 class="hidden">Contact Us</h2>
+    </section>
+
+    <script>
+        // Background color change on navigation click with smooth scroll
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const color = link.getAttribute('data-color');
+                document.body.style.background = color;
+
+                const targetId = link.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
